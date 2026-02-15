@@ -1,0 +1,29 @@
+server:
+  host: 0.0.0.0
+  port: 8080
+  read_timeout_seconds: 15
+  write_timeout_seconds: 15
+  shutdown_timeout_seconds: 10
+
+cors:
+  allowed_origins:
+    - http://localhost:5000
+
+green_api:
+  base_url: https://api.green-api.com
+  timeout_seconds: 15
+  retry:
+    max_retries: 3
+    delay_seconds: 2
+  circuit_breaker:
+    name: green-api
+    consecutive_failures: 5
+    half_open_max_requests: 1
+    open_timeout_seconds: 30
+    interval_seconds: 60
+    failure_ratio: 0.6
+    min_requests: 5
+
+logging:
+  level: info
+  format: json

@@ -1,0 +1,200 @@
+openapi: 3.0.3
+info:
+  title: Green API Backend
+  version: 1.0.0
+  description: Backend proxy API for GREEN-API methods used in test task.
+servers:
+  - url: http://localhost:8080
+paths:
+  /health:
+    get:
+      summary: Health check
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+  /api/v1/settings:
+    post:
+      summary: Get instance settings
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CredentialsRequest'
+      responses:
+        '200':
+          description: Proxied GREEN-API response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '502':
+          $ref: '#/components/responses/UpstreamError'
+        '503':
+          $ref: '#/components/responses/UpstreamError'
+        '504':
+          $ref: '#/components/responses/UpstreamError'
+  /api/v1/state:
+    post:
+      summary: Get instance state
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CredentialsRequest'
+      responses:
+        '200':
+          description: Proxied GREEN-API response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '502':
+          $ref: '#/components/responses/UpstreamError'
+        '503':
+          $ref: '#/components/responses/UpstreamError'
+        '504':
+          $ref: '#/components/responses/UpstreamError'
+  /api/v1/send-message:
+    post:
+      summary: Send text message
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendMessageRequest'
+      responses:
+        '200':
+          description: Proxied GREEN-API response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '502':
+          $ref: '#/components/responses/UpstreamError'
+        '503':
+          $ref: '#/components/responses/UpstreamError'
+        '504':
+          $ref: '#/components/responses/UpstreamError'
+  /api/v1/send-file-by-url:
+    post:
+      summary: Send file by URL
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendFileByURLRequest'
+      responses:
+        '200':
+          description: Proxied GREEN-API response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '502':
+          $ref: '#/components/responses/UpstreamError'
+        '503':
+          $ref: '#/components/responses/UpstreamError'
+        '504':
+          $ref: '#/components/responses/UpstreamError'
+components:
+  schemas:
+    CredentialsRequest:
+      type: object
+      required:
+        - idInstance
+        - apiTokenInstance
+      properties:
+        idInstance:
+          type: string
+          example: '1101000001'
+        apiTokenInstance:
+          type: string
+          example: your_token_here
+    SendMessageRequest:
+      allOf:
+        - $ref: '#/components/schemas/CredentialsRequest'
+        - type: object
+          required:
+            - chatId
+            - message
+          properties:
+            chatId:
+              type: string
+              example: '77771234567'
+              description: Number without suffix is allowed, backend normalizes to @c.us
+            message:
+              type: string
+              example: Hello World!
+    SendFileByURLRequest:
+      allOf:
+        - $ref: '#/components/schemas/CredentialsRequest'
+        - type: object
+          required:
+            - chatId
+            - urlFile
+          properties:
+            chatId:
+              type: string
+              example: '77771234567'
+              description: Number without suffix is allowed, backend normalizes to @c.us
+            urlFile:
+              type: string
+              format: uri
+              example: https://my.site.com/img/horse.png
+    ErrorResponse:
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          type: object
+          required:
+            - code
+            - message
+          properties:
+            code:
+              type: string
+              example: validation_error
+            message:
+              type: string
+              example: invalid request payload
+            details:
+              description: Optional additional details
+              nullable: true
+  responses:
+    ValidationError:
+      description: Validation error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    UpstreamError:
+      description: Upstream communication error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'

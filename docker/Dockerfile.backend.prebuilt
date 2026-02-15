@@ -1,0 +1,18 @@
+FROM alpine:3.20
+
+RUN apk add --no-cache ca-certificates
+RUN adduser -D -g '' appuser
+
+WORKDIR /app
+
+COPY build/server-linux-amd64 /app/server
+RUN chmod +x /app/server
+COPY config/example-config.yaml /app/config/example-config.yaml
+
+ENV APP_CONFIG=/app/config/config.yaml
+
+EXPOSE 5050
+
+USER appuser
+
+CMD ["/app/server"]

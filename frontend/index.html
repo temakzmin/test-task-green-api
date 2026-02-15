@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GREEN-API Console</title>
+    <link rel="icon" type="image/png" href="./favicon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="layout">
+      <section class="panel panel-left" aria-label="GREEN-API actions">
+        <h1 class="title">GREEN-API</h1>
+
+        <label class="field-label" for="idInstance">idInstance</label>
+        <input id="idInstance" type="text" autocomplete="off" />
+
+        <label class="field-label" for="apiTokenInstance">ApiTokenInstance</label>
+        <div class="token-input-wrap">
+          <input id="apiTokenInstance" type="password" autocomplete="off" />
+          <button
+            id="toggleApiTokenVisibility"
+            class="token-visibility-toggle"
+            type="button"
+            aria-label="Показать токен"
+            aria-pressed="false"
+            title="Показать токен"
+          >
+            <svg class="icon-eye icon-eye-open" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M2 12s3.8-6 10-6 10 6 10 6-3.8 6-10 6S2 12 2 12Z" />
+              <circle cx="12" cy="12" r="3" />
+            </svg>
+            <svg class="icon-eye icon-eye-closed" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M3 3l18 18" />
+              <path d="M10.6 6.2A10.6 10.6 0 0 1 12 6c6.2 0 10 6 10 6a17 17 0 0 1-3.4 4.1" />
+              <path d="M8.7 8.7A4.5 4.5 0 0 0 8 11c0 2.2 1.8 4 4 4 .8 0 1.6-.2 2.3-.7" />
+              <path d="M6 6A17.6 17.6 0 0 0 2 12s3.8 6 10 6c1.5 0 2.8-.3 4.1-.8" />
+            </svg>
+          </button>
+        </div>
+
+        <button id="btnGetSettings" class="btn btn-primary" type="button">getSettings</button>
+        <button id="btnGetStateInstance" class="btn btn-primary" type="button">getStateInstance</button>
+
+        <div class="group" aria-label="sendMessage group">
+          <h2>sendMessage</h2>
+          <input id="smChatId" type="text" placeholder="77771234567" autocomplete="off" />
+          <textarea id="smMessage" rows="4" placeholder="Hello World!"></textarea>
+          <button id="btnSendMessage" class="btn" type="button">sendMessage</button>
+        </div>
+
+        <div class="group" aria-label="sendFileByUrl group">
+          <h2>sendFileByUrl</h2>
+          <input id="sfChatId" type="text" placeholder="77771234567" autocomplete="off" />
+          <input id="sfUrl" type="text" placeholder="https://my.site.com/img/horse.png" autocomplete="off" />
+          <button id="btnSendFileByUrl" class="btn" type="button">sendFileByUrl</button>
+        </div>
+      </section>
+
+      <section class="panel panel-right" aria-label="response panel">
+        <div class="response-header">
+          <span>Ответ:</span>
+          <span id="statusBadge" class="status-badge">idle</span>
+        </div>
+        <textarea id="response" readonly></textarea>
+      </section>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

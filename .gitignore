@@ -1,0 +1,35 @@
+# Binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary
+*.test
+
+# Output of the go coverage tool
+*.out
+coverage.out
+
+# Go workspace file
+go.work.sum
+
+# Dependency directories (remove this if you commit vendor)
+vendor/
+
+# IDE / editor files
+.idea/
+.vscode/
+
+# OS files
+.DS_Store
+
+# Local project files
+local/
+
+# Runtime config (contains secrets)
+config/config.yaml
+
+# Local Go build cache
+.cache/

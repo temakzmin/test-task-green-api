@@ -1,0 +1,13 @@
+pre-commit:
+  commands:
+    go_fmt:
+      glob: "**/*.go"
+      run: gofumpt -w {staged_files} && goimports -w {staged_files}
+      stage_fixed: true
+    go_lint:
+      run: golangci-lint run
+
+pre-push:
+  commands:
+    go_test:
+      run: make test
